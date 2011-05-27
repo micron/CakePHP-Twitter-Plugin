@@ -1,5 +1,20 @@
 <?php
-
+/**
+ * TwitterAppController
+ *
+ * @filesource
+ *
+ * @copyright		Copyright 2011, InterCaravaning GmbH & Co. KG, tsitrone medien GmbH & Co. KG 
+ * @link			http://www.intercaravaning.de
+ * @link			http://www.tsitrone.de
+ *
+ *
+ * @author			Miron Ogrodowicz <ogrodowicz@iconcepts.de>
+ *
+ * @since			v2.0
+ * @todo			create an model where we save the auth tokens
+ * 
+ */
 App::import('Vendor', 'Twitter.HttpSocketOauth');
 
 class TwitterAppController extends AppController {
@@ -28,8 +43,28 @@ class TwitterAppController extends AppController {
 		$this->Session->write('Twitter', $response);
 	}
 	
-	public function sendtweet($accesskey = NULL){
-		var_dump($this->Session->read('Twitter'));
+	public function sendtweet($content = null){
+		$sent = false;
+		if($content && strlen($content) <= 140){
+			// http://icneuesondermodelle.localhost/Sondermodelle/2-70-Fendt_Saphir_495_TFB_Style.html
+			$Http = new HttpSocketOauth();
+			
+			$this->appConfig['twitter']['access']['uri']['path'] = '1/statuses/update.json';
+			$this->appConfig['twitter']['access']['auth']['oauth_token'] = $this->Session->read('Twitter.oauth_token');
+			$this->appConfig['twitter']['access']['auth']['oauth_token_secret'] = $this->Session->read('Twitter.oauth_token_secret');
+			
+			unset($this->appConfig['twitter']['access']['auth']['oauth_verifier']);
+			
+			$this->appConfig['twitter']['access']['body'] = array(
+				'status' => $content
+			);
+			
+			//debug($this->appConfig['twitter']['access']);
+			$response = $Http->request($this->appConfig['twitter']['access']);
+			$sent = true;
+		}
+		
+		return sent;
 	}
 	
 }
