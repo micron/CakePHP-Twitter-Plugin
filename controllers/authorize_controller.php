@@ -8,15 +8,19 @@ class AuthorizeController extends TwitterAppController{
 	
 	public $uses = array('TwitterToken');
 	
+	public $helpers = array('Html');
+	
 	/**
 	 * 
 	 * Main action, the controller redirects us to the authorization page to authorize the current application
 	 */
 	public function index(){
-		$Http = new HttpSocketOauth;
-		//$response = $Http->request($this->appConfig['twitter']['request']);
-		parse_str($response, $response);
-		//$this->redirect('http://api.twitter.com/oauth/authorize?oauth_token=' . $response['oauth_token']);
+		if($this->data){
+			$Http = new HttpSocketOauth;
+			$response = $Http->request($this->appConfig['twitter']['request']);
+			parse_str($response, $response);
+			$this->redirect('http://api.twitter.com/oauth/authorize?oauth_token=' . $response['oauth_token']);
+		}
 	}
 	
 	/**
@@ -34,7 +38,7 @@ class AuthorizeController extends TwitterAppController{
 		
 		$response = $Http->request($request);
 		parse_str($response, $response);
-		if($this->params['url']['oauth_token'] && $this->params['url']['oauth_verifer']){
+		if($this->params['url']['oauth_token'] && $this->params['url']['oauth_verifier']){
 			// prepare the data to to be saved
 			$data = array(
 				'TwitterToken' => array(
