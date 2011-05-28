@@ -1,8 +1,8 @@
 <?php
 
 class TwitterAppModel extends AppModel {
-
-	var $useTable = false;
+	public $name = 'TwitterAppModel';
+	public $useTable = false;
 	
 }
 
