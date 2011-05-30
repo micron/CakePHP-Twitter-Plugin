@@ -66,10 +66,11 @@ class AuthorizeController extends TwitterAppController{
 	 * @param string $content
 	 * @return boolean
 	 */
-	public function sendtweet($content = null){
+	public function sendtweet(){
 		$sent = false;
 		$oauthTokens = array();
-
+		$content = $this->params['url']['content'];
+		
 		if($content && strlen($content) <= 140){
 			$Http = new HttpSocketOauth();
 			
