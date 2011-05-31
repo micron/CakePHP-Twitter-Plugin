@@ -1,0 +1,21 @@
+USAGE - App authorization
+
+1) 	Put the plugin in your apps Plugin Directory
+	ex.: app/plugins/twitter
+
+2)	To verify the Twitter account you're currently logged in with point your browser to:
+	http://mycakeapp.localhost/twitter/authorize
+	
+3)	Hit the start Button to start the authorization for your Twitter account
+
+4)	Confirm that you want to authorize the app to send and read your tweets
+
+5)	You'll be redirected back to the twcallback action where you'll see an confirmation message
+
+USAGE - Send tweet
+
+6)	The authorize_controller.php holds an action called sendtweet which allows you to send tweets to the previously authorized Twitter account
+
+7)	Just point your browser to the following url to send an tweet: 
+	http://mycakeapp.localhost/twitter/authorize/sendtweet?content=my_super_uber_tweet
+	Make sure that your content isnt longer then 140 chars, if its longer the tweet will be rejected
